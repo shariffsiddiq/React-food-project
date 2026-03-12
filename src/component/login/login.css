@@ -1,18 +1,18 @@
-.register-body {
-    background-image: url(../Dashboard/image/jeni.jpg);
+.login-body {
+    background-image: url(../Dashboard/image/jeni.jpg); /* Adjust the path as needed */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
     margin: 0;
-    padding-top: 80px;
+    padding-top: 120px;
     display: flex;
     justify-content: center;
     align-items: start;
     font-family: Arial, sans-serif;
   }
   
-  .register-main {
+  .login-main {
     width: 480px;
     background-color: rgba(255, 255, 255, 0.95);
     padding: 40px;
@@ -23,7 +23,7 @@
     align-items: center;
   }
   
-  .register-main h1 {
+  .login-main h1 {
     margin-bottom: 25px;
     color: #333;
     font-size: 24px;
@@ -47,60 +47,34 @@
     top: 0;
     left: 0;
     border-radius: 10px;
-    border: 3px solid red; /* Turns green when face is detected */
+    border: 3px solid red; /* Red = no face detected, Green = face detected */
     transition: border 0.3s ease;
     pointer-events: none;
     z-index: 10;
   }
   
-  .register-main button {
+  .login-main button {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: rgb(11, 169, 11);
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: background-color 0.3s ease;
   }
   
-  .register-main button:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-  
-  .register-main button:hover:enabled {
-    background-color: rgb(3, 149, 3);
+  .login-main button:hover {
+    background-color: #0056b3;
     box-shadow: 2px 3px 5px black;
-  }
-  
-  .progress-bar-wrapper {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 300px;
-    text-align: center;
-  }
-  
-  .progress-bar-bg {
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    height: 12px;
-    overflow: hidden;
-  }
-  
-  .progress-bar-fill {
-    background-color: #4caf50;
-    height: 100%;
-    transition: width 0.4s ease;
-    width: 0%;
   }
   
   .spinner {
     width: 60px;
     height: 60px;
     border: 6px solid #ddd;
-    border-top-color: #0f0;
+    border-top-color: #007bff;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 30px auto;
@@ -113,7 +87,7 @@
   }
   
   @media screen and (max-width: 600px) {
-    .register-main {
+    .login-main {
       width: 95%;
       padding: 20px;
     }
