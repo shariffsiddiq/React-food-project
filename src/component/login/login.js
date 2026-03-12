@@ -1,13 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as faceapi from "face-api.js";
 import { useHistory } from "react-router-dom";
 import "../login/login.css";
 
 function Login() {
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("Initializing...");
+  const [progress, setProgress] = useState(0);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+
   const videoRef = useRef();
   const canvasRef = useRef();
-  const [loading, setLoading] = useState(true);
-  const [faceDetected, setFaceDetected] = useState(false);
+  const detectionRef = useRef(null);
   const history = useHistory();
 
   useEffect(() => {
@@ -16,6 +20,7 @@ function Login() {
       await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
       await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
       setLoading(false);
+      setMessage("Click 'Start Camera' to begin login.");
     };
     loadModels();
   }, []);
@@ -23,16 +28,14 @@ function Login() {
   const startCamera = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     videoRef.current.srcObject = stream;
-
-    videoRef.current.onloadedmetadata = () => {
-      videoRef.current.play();
-      detectFace();
-    };
+    videoRef.current.play();
+    detectFace();
+    setMessage("Align your face for scanning.");
   };
 
   const detectFace = () => {
-    const video = videoRef.current;
     const canvas = canvasRef.current;
+    const video = videoRef.current;
     const displaySize = { width: video.width, height: video.height };
     faceapi.matchDimensions(canvas, displaySize);
 
@@ -43,45 +46,51 @@ function Login() {
         .withFaceDescriptors();
 
       const resized = faceapi.resizeResults(detections, displaySize);
-      const context = canvas.getContext("2d");
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
+      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
       faceapi.draw.drawDetections(canvas, resized);
       faceapi.draw.drawFaceLandmarks(canvas, resized);
 
       if (detections.length === 1) {
+        detectionRef.current = detections[0];
         document.getElementById("overlay").style.border = "3px solid green";
-        setFaceDetected(true);
-        attemptLogin(detections[0]);
+        setMessage("✅ Face detected. Click 'Login with Face'.");
       } else {
+        detectionRef.current = null;
         document.getElementById("overlay").style.border = "3px solid red";
-        setFaceDetected(false);
+        setMessage("❌ No face detected. Please align properly.");
       }
-    }, 500);
+    }, 300);
   };
 
-  const attemptLogin = async (detection) => {
-    const storedData = JSON.parse(localStorage.getItem("faceData"));
-    if (!storedData || storedData.length !== 3) {
-      alert("No registered face data found. Please register first.");
+  const handleLogin = async () => {
+    if (!detectionRef.current) {
+      setMessage("❌ No face detected.");
       return;
     }
 
-    const descriptors = storedData.map((desc) => new Float32Array(desc));
-    const queryDescriptor = detection.descriptor;
+    const storedData = JSON.parse(localStorage.getItem("faceData"));
+    if (!storedData) {
+      setMessage("❗ No face data found. Please register first.");
+      return;
+    }
 
-    const distances = descriptors.map((d) =>
-      faceapi.euclideanDistance(d, queryDescriptor)
+    const matchThreshold = 0.5;
+    const descriptor = detectionRef.current.descriptor;
+
+    const distances = storedData.map((saved) =>
+      faceapi.euclideanDistance(descriptor, saved)
     );
 
-    const threshold = 0.55;
-    const matched = distances.some((distance) => distance < threshold);
+    const bestMatch = Math.min(...distances);
 
-    if (matched) {
-      alert("Login successful!");
-      history.push("/home"); // Change to your actual route
+    if (bestMatch < matchThreshold) {
+      setLoginSuccess(true);
+      setProgress(100);
+      setMessage("🎉 Login successful! Redirecting...");
+      setTimeout(() => history.push("/home"), 2000);
     } else {
-      alert("Face not recognized. Please try again.");
+      setMessage("❌ Face does not match. Try again.");
+      setProgress(0);
     }
   };
 
@@ -89,32 +98,29 @@ function Login() {
     <div className="login-body">
       <div className="login-main">
         <h1>Login with Face</h1>
+        <p style={{ color: "orange" }}>{message}</p>
 
         {loading ? (
           <div className="spinner"></div>
         ) : (
           <>
             <div className="camera-wrapper">
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                width="360"
-                height="270"
-              />
-              <canvas
-                ref={canvasRef}
-                width="360"
-                height="270"
-                id="overlay"
-              ></canvas>
+              <video ref={videoRef} width="360" height="270" muted />
+              <canvas ref={canvasRef} width="360" height="270" id="overlay" />
             </div>
 
             <button onClick={startCamera}>Start Camera</button>
+            <button onClick={handleLogin}>Login with Face</button>
 
-            <p style={{ marginTop: "10px", color: faceDetected ? "green" : "red" }}>
-              {faceDetected ? "Face detected" : "No face detected"}
-            </p>
+            <div className="progress-bar-wrapper">
+              <div className="progress-bar-bg">
+                <div
+                  className="progress-bar-fill"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              {loginSuccess && <p>✅ Login Complete</p>}
+            </div>
           </>
         )}
       </div>

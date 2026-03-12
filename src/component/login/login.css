@@ -1,101 +1,98 @@
 .login-body {
-    background-image: url(../Dashboard/image/jeni.jpg); /* Adjust the path as needed */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    margin: 0;
-    padding-top: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    font-family: Arial, sans-serif;
-  }
-  
+  background-image: url(../Dashboard/image/jeni.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  font-family: Arial, sans-serif;
+}
+
+.login-main {
+  width: 480px;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-main h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #222;
+}
+
+.login-main p {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.camera-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+video {
+  border-radius: 10px;
+  box-shadow: 0 0 5px black;
+}
+
+#login-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  border: 3px solid red;
+  transition: border 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.login-main button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: rgb(11, 169, 11);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-main button:hover {
+  background-color: rgb(3, 149, 3);
+  box-shadow: 2px 3px 5px black;
+}
+
+.success-msg {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
   .login-main {
-    width: 480px;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 95%;
+    padding: 20px;
   }
-  
-  .login-main h1 {
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
+
+  video,
+  canvas {
+    width: 100% !important;
+    height: auto !important;
   }
-  
-  .camera-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  video {
-    border-radius: 10px;
-    box-shadow: 0 0 5px black;
-  }
-  
-  #overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 10px;
-    border: 3px solid red; /* Red = no face detected, Green = face detected */
-    transition: border 0.3s ease;
-    pointer-events: none;
-    z-index: 10;
-  }
-  
-  .login-main button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .login-main button:hover {
-    background-color: #0056b3;
-    box-shadow: 2px 3px 5px black;
-  }
-  
-  .spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid #ddd;
-    border-top-color: #007bff;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 30px auto;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media screen and (max-width: 600px) {
-    .login-main {
-      width: 95%;
-      padding: 20px;
-    }
-  
-    video,
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-  }
-  
+}

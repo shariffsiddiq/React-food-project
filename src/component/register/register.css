@@ -1,127 +1,175 @@
+/* register.css - Enhanced styling for the face registration component */
+
 .register-body {
-    background-image: url(../Dashboard/image/jeni.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    margin: 0;
-    padding-top: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    font-family: Arial, sans-serif;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-main {
+  width: 450px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-main h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.status-message {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+  min-height: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  width: 100%;
+}
+
+.camera-wrapper {
+  position: relative;
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 360px;
+  height: 270px;
+  background-color: #000;
+}
+
+video, canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#overlay {
+  border: 3px solid #ccc;
+  box-sizing: border-box;
+  z-index: 2;
+  transition: border-color 0.3s ease;
+}
+
+.challenge-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  z-index: 3;
+}
+
+button {
+  width: 200px;
+  height: 45px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 25px;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.control-button {
+  background-color: #3498db;
+}
+
+.capture-button {
+  background-color: #4CAF50;
+}
+
+.register-button {
+  background-color: #2196F3;
+}
+
+.progress-bar-wrapper {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.progress-bar-bg {
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #4CAF50;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.progress-bar-wrapper p {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-left-color: #3498db;
+  animation: spin 1s linear infinite;
+  margin: 20px 0;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
   .register-main {
-    width: 480px;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 95%;
+    padding: 20px;
   }
-  
-  .register-main h1 {
-    margin-bottom: 25px;
-    color: #333;
-    font-size: 24px;
-  }
-  
+
   .camera-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+    width: 300px;
+    height: 225px;
   }
-  
-  video {
-    border-radius: 10px;
-    box-shadow: 0 0 5px black;
+
+  button {
+    width: 180px;
+    height: 40px;
+    font-size: 14px;
   }
-  
-  #overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 10px;
-    border: 3px solid red; /* Turns green when face is detected */
-    transition: border 0.3s ease;
-    pointer-events: none;
-    z-index: 10;
-  }
-  
-  .register-main button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: rgb(11, 169, 11);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  
-  .register-main button:disabled {
-    background-color: gray;
-    cursor: not-allowed;
-  }
-  
-  .register-main button:hover:enabled {
-    background-color: rgb(3, 149, 3);
-    box-shadow: 2px 3px 5px black;
-  }
-  
-  .progress-bar-wrapper {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 300px;
-    text-align: center;
-  }
-  
-  .progress-bar-bg {
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    height: 12px;
-    overflow: hidden;
-  }
-  
-  .progress-bar-fill {
-    background-color: #4caf50;
-    height: 100%;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-  
-  .spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid #ddd;
-    border-top-color: #0f0;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 30px auto;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @media screen and (max-width: 600px) {
-    .register-main {
-      width: 95%;
-      padding: 20px;
-    }
-  
-    video,
-    canvas {
-      width: 100% !important;
-      height: auto !important;
-    }
-  }
-  
+}
